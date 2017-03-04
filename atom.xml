@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-04T11:05:15.000Z</updated>
+  <updated>2017-03-04T11:29:17.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,106 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>图片预览的几种方法</title>
+    <link href="http://yoursite.com/2017/03/04/img-preview/"/>
+    <id>http://yoursite.com/2017/03/04/img-preview/</id>
+    <published>2017-03-04T11:17:54.000Z</published>
+    <updated>2017-03-04T11:29:17.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>方法有三种：</p>
+<ol>
+<li>选择文件后直上传然后得到网络url</li>
+<li>用HTML5的File API的FileReader图片本地转成base64格式的url</li>
+<li>用URL.createObjectURL(file)对象方法创建临时路径</li>
+</ol>
+<a id="more"></a>
+<h2 id="选择文件后直接上传然后得到网络url"><a href="#选择文件后直接上传然后得到网络url" class="headerlink" title="选择文件后直接上传然后得到网络url"></a>选择文件后直接上传然后得到网络url</h2><p>利用2、3方法先将图片传到服务器，再使用服务器里面的绝对地址</p>
+<h2 id="用HTML5的File-API的FileReader获取图片的base64字符串"><a href="#用HTML5的File-API的FileReader获取图片的base64字符串" class="headerlink" title="用HTML5的File API的FileReader获取图片的base64字符串"></a>用HTML5的File API的FileReader获取图片的base64字符串</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 下面是使用vue的写法</span></div><div class="line"></div><div class="line">imgPreview (file) &#123;</div><div class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 看支持不支持FileReader</span></div><div class="line">    <span class="keyword">if</span> (!file || !<span class="built_in">window</span>.FileReader) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="regexp">/^image/</span>.test(file.type)) &#123;</div><div class="line">        <span class="comment">// 创建一个reader</span></div><div class="line">        <span class="keyword">let</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">        <span class="comment">// 将图片将转成 base64 格式</span></div><div class="line">        reader.readAsDataURL(file);</div><div class="line">        <span class="comment">// 读取成功后的回调</span></div><div class="line">        reader.onloadend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="comment">// 将图片展示</span></div><div class="line">            self.dataUrl = reader.result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;,</div><div class="line">handleFileChange (e) &#123;</div><div class="line">    ...</div><div class="line">    this.file = inputDOM.files[<span class="number">0</span>];</div><div class="line">    ...</div><div class="line">    <span class="comment">// 在获取到文件对象进行预览就行了！</span></div><div class="line">    <span class="keyword">this</span>.imgPreview(<span class="keyword">this</span>.file);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="URL-对象方法创建临时路径"><a href="#URL-对象方法创建临时路径" class="headerlink" title="URL 对象方法创建临时路径"></a>URL 对象方法创建临时路径</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">imgBlob = imgInput.files[<span class="number">0</span>] <span class="comment">// 获取blob对象</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> srcTemp = URL.createObjectURL(imgBlob) <span class="comment">// 创建临时路径</span></div><div class="line"></div><div class="line">URL.revokeObjectURL(srcTemp) <span class="comment">// 销毁临时路径</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;方法有三种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选择文件后直上传然后得到网络url&lt;/li&gt;
+&lt;li&gt;用HTML5的File API的FileReader图片本地转成base64格式的url&lt;/li&gt;
+&lt;li&gt;用URL.createObjectURL(file)对象方法创建临时路径&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>什么是webpack</title>
+    <link href="http://yoursite.com/2017/03/04/webpack-little/"/>
+    <id>http://yoursite.com/2017/03/04/webpack-little/</id>
+    <published>2017-03-04T11:10:00.000Z</published>
+    <updated>2017-03-04T11:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇是之前为了组内技术分享的时候准备的，虽然那个时候讲的不太好，现在贴出来告诉自己以后要做的更好</p>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><hr>
+<p>当今越来越多的网站已经从网页模式进化到了 Webapp 模式。它们运行在现代的高级浏览器里，使用各种更新的技术来开发，网页已经不仅仅是完成浏览的基本需求，并且webapp通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的 JavaScript 代码。</p>
+<a id="more"></a>
+<p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。</p>
+<p>它们拥有着复杂的JavaScript代码和一大堆依赖包。为了简化开发的复杂度，前端社区涌现出了很多好的实践方法</p>
+<ul>
+<li>模块化，让我们可以把复杂的程序细化为小的文件;</li>
+<li>类似于TypeScript这种在JavaScript基础上拓展的开发语言：使我们能够实现目前版本的JavaScript不能直接使用的特性，并且之后还能能装换为JavaScript文件使浏览器可以识别；</li>
+<li>Scss，less等CSS预处理器</li>
+</ul>
+<h2 id="模块系统"><a href="#模块系统" class="headerlink" title="模块系统"></a>模块系统</h2><hr>
+<p>模块系统主要解决模块的定义、依赖和导出，先来看看已经存在的模块系统。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;module1.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;module2.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;libraryA.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;module3.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>这是最原始的 JavaScript 文件加载方式，如果把每一个文件看做是一个模块，那么他们的接口通常是暴露在全局作用域下，也就是定义在 window 对象中，不同模块的接口调用都是一个作用域中，一些复杂的框架，会使用命名空间的概念来组织这些模块的接口，典型的例子如 YUI 库。</p>
+<p>这种原始的加载方式暴露了一些显而易见的弊端：</p>
+<ul>
+<li>全局作用域下容易造成变量冲突</li>
+<li>文件只能按照 &lt; script &gt; 的书写顺序进行加载</li>
+<li>开发人员必须主观解决模块和代码库的依赖关系</li>
+<li>在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪</li>
+</ul>
+<p>这时候就出现了一些模块化的解决方案</p>
+<h3 id="commonJS"><a href="#commonJS" class="headerlink" title="commonJS"></a>commonJS</h3><p>require（”vue”）<br>require(“../file.js”)<br>module.exports = something</p>
+<p>优点：<br>服务器端模块便于重用<br>NPM 中已经有将近20万个可以使用模块包<br>简单并容易使用</p>
+<p>缺点：<br>同步的模块加载方式不适合在浏览器环境中，同步意味着阻塞加载，浏览器资源是异步加载的<br>不能非阻塞的并行加载多个模块</p>
+<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><p>define(“jq”, “lodash”, funciton (d1, d2) {<br>})<br>Requirejs<br>优点：</p>
+<p>适合在浏览器环境中异步加载模块<br>可以并行加载多个模块<br>缺点：</p>
+<p>提高了开发成本，代码的阅读和书写比较困难，模块定义方式的语义不顺畅<br>不符合通用的模块化思维方式，是一种妥协的实现</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>define(function(require, export, module) {<br>    var $ = require(‘jquery’);<br>      var Spinning = require(‘./spinning’);<br>    exports.doSomething = …<br>      module.exports = …<br>})</p>
+<p>优点：<br>依赖就近，延迟执行<br>可以很容易在 Node.js 中运行<br>缺点：</p>
+<p>依赖 SPM 打包，模块的加载逻辑偏重</p>
+<h3 id="UMD"><a href="#UMD" class="headerlink" title="UMD"></a>UMD</h3><p>(function (root, factory) {<br>    if (typeof define === ‘function’ &amp;&amp; define.amd) {<br>        // AMD. Register as an anonymous module.<br>        define([‘exports’, ‘b’], factory);<br>    } else if (typeof exports === ‘object’ &amp;&amp; typeof exports.nodeName !== ‘string’) {<br>        // CommonJS<br>        factory(exports, require(‘b’));<br>    } else {<br>        // Browser globals<br>        factory((root.commonJsStrict = {}), root.b);<br>    }<br>}(this, function (exports, b) {<br>    //use b in some fashion.</p>
+<pre><code>// attach properties to the exports object to define
+// the exported module properties.
+exports.action = function () {};
+</code></pre><p>}));</p>
+<h3 id="ES6-模块"><a href="#ES6-模块" class="headerlink" title="ES6 模块"></a>ES6 模块</h3><p>import “jquery”;<br>export function doStuff() {}</p>
+<p>优点：<br>容易进行静态分析<br>面向未来的 EcmaScript 标准</p>
+<p>缺点：<br>原生浏览器端还没有实现该标准<br>全新的命令字，新版的 Node.js才支持</p>
+<p>具体实现的话：babel</p>
+<h3 id="我们期待的模块系统"><a href="#我们期待的模块系统" class="headerlink" title="我们期待的模块系统"></a>我们期待的模块系统</h3><p>可以兼容多种模块风格，尽量可以利用已有的代码，不仅仅只是 JavaScript 模块化，还有 CSS、图片、字体等资源也需要模块化。</p>
+<p>前端模块加载</p>
+<h3 id="前端模块加载"><a href="#前端模块加载" class="headerlink" title="前端模块加载"></a>前端模块加载</h3><p>前端模块要在客户端中执行，所以他们需要增量加载到浏览器中。</p>
+<p>模块的加载和传输，我们首先能想到两种极端的方式，一种是每个模块文件都单独请求，另一种是把所有模块打包成一个文件然后只请求一次。显而易见，每个模块都发起单独的请求造成了请求次数过多，导致应用启动速度慢；一次请求加载所有模块导致流量浪费、初始化过程慢。这两种方式都不是好的解决方案，它们过于简单粗暴。</p>
+<p>分块传输，按需进行懒加载，在实际用到某些模块的时候再增量更新，才是较为合理的模块加载方案。</p>
+<p>要实现模块的按需加载，就需要一个对整个代码库中的模块进行静态分析、编译打包的过程。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇是之前为了组内技术分享的时候准备的，虽然那个时候讲的不太好，现在贴出来告诉自己以后要做的更好&lt;/p&gt;
+&lt;h2 id=&quot;现状&quot;&gt;&lt;a href=&quot;#现状&quot; class=&quot;headerlink&quot; title=&quot;现状&quot;&gt;&lt;/a&gt;现状&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;当今越来越多的网站已经从网页模式进化到了 Webapp 模式。它们运行在现代的高级浏览器里，使用各种更新的技术来开发，网页已经不仅仅是完成浏览的基本需求，并且webapp通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的 JavaScript 代码。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>git commit msg</title>
@@ -80,7 +180,7 @@
     <link href="http://yoursite.com/2017/03/04/https/"/>
     <id>http://yoursite.com/2017/03/04/https/</id>
     <published>2017-03-04T10:52:19.000Z</published>
-    <updated>2017-03-04T11:00:36.000Z</updated>
+    <updated>2017-03-04T11:09:01.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="https"><a href="#https" class="headerlink" title="https"></a>https</h1><p>Https是就是套在SSL/TLS内的http，也就是安全的http。何为安全？一个安全的网络通信环境要解决3个问题：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. 通信内容的保密</div><div class="line">2. 通信双方身份的真实</div><div class="line">3. 通信内容的完整</div></pre></td></tr></table></figure>
@@ -100,7 +200,7 @@
 <h2 id="通信内容的完整"><a href="#通信内容的完整" class="headerlink" title="通信内容的完整"></a><strong>通信内容的完整</strong></h2><p>为了防止通信内容的完整性与一致性</p>
 <p>这种篡改通信内容的场景相信大家都深有体会，我们访问一些站点的时候无缘无故就出现了运营商的广告，这都是运营商给加的！！所以内容的完整性也需要保证，这比较简单：先用哈希算法提取内容摘要，然后对摘要进行加密生成数字签名，验证数字签名就可以判断出通信内容的完整性了。</p>
 <p>以上就是https用到技术的简化版，一个http通信流程如下：</p>
-<p><img src="img/https.png" alt="https流程"></p>
+<p><img src="https://github.com/ws456999/ws456999.github.io/blob/master/https.png?raw=true" alt="https流程"></p>
 <p>大体步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1. 客户端发送Client Hello报文开始SSL通信，报文中包含SSL版本、可用算法列表、密钥长度等。</div><div class="line">2. 服务器支持SSL通信时，会以Server Hello报文作为应答，报文中同样包括SSL版本以及加密算法配置，也就是协商加解密算法。</div><div class="line">3. 然后服务器会发送Certificate报文，也就是将证书发送给客户端。</div><div class="line">4. 客户端发送Client Key Exchange报文，使用3中的证书公钥加密Pre-master secret随机密码串，后续就以这个密码来做对称加密进行通信。</div><div class="line">5. 服务器使用私钥解密成功后返回一个响应提示SSL通信环境已经搭建好了。</div><div class="line">6. 然后就是常规的http c/s通信。</div></pre></td></tr></table></figure></p>
 <p>根据前文所述，在步骤3和步骤6都会使用摘要和签名算法来保证传递的证书和通信内容不被篡改。通过这个流程可以看出，https的核心在于加密，尤其是非对称加密算法被多次使用来传送关键信息。</p>
 <p>理解了加密，认识到网络的透明性，抱着怀疑一切的态度，理解https这套体系就变得简单了。</p>
