@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-03-04T05:22:13.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>John Doe</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>正则表达式（一）</title>
+    <link href="http://yoursite.com/2017/03/04/regex-01/"/>
+    <id>http://yoursite.com/2017/03/04/regex-01/</id>
+    <published>2017-03-04T04:21:59.000Z</published>
+    <updated>2017-03-04T05:22:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>常年没有写过正则了，今天来好好学习一波，有点长，留着点东西准备些下一篇</p>
+<p>先放一波格式化代码<br><a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 正则添加千分位</span></div><div class="line"><span class="comment">//参数说明：num 要格式化的数字 n 保留小数位</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatNum</span>(<span class="params">num,n</span>)</span>&#123;</div><div class="line">  num = <span class="built_in">String</span>(num.toFixed(n))</div><div class="line">  <span class="keyword">var</span> re = <span class="regexp">/(-?\d+)(\d&#123;3&#125;)/</span></div><div class="line">  <span class="keyword">while</span>(re.test(num)) &#123;</div><div class="line">    num = num.replace(re,<span class="string">"$1,$2"</span>)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> num</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="贪婪模式跟非贪婪模式"><a href="#贪婪模式跟非贪婪模式" class="headerlink" title="贪婪模式跟非贪婪模式"></a>贪婪模式跟非贪婪模式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"aaab"</span>,</div><div class="line">reg1 = <span class="regexp">/a+/</span>, <span class="comment">//贪婪模式</span></div><div class="line">reg2 = <span class="regexp">/a+?/</span>;<span class="comment">//非贪婪模式</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg1)); <span class="comment">//["aaa"], 由于是贪婪模式, 捕获了所有的a</span></div><div class="line"><span class="built_in">console</span>.log(str.match(regs)); <span class="comment">//["a"], 由于是非贪婪模式, 只捕获到第一个a</span></div><div class="line">(\+<span class="number">86</span>)?<span class="number">1</span>\d&#123;<span class="number">10</span>&#125;</div></pre></td></tr></table></figure>
+<p>实际上, 非贪婪模式非常有效, 特别是当匹配html标签时. 比如匹配一个配对出现的div, 方案一可能会匹配到很多的div标签对, 而方案二则只会匹配一个div标签对.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">"&lt;div class='v1'&gt;&lt;div class='v2'&gt;test&lt;/div&gt;&lt;input type='text'/&gt;&lt;/div&gt;"</span>;</div><div class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/&lt;div.*&lt;\/div&gt;/</span>; <span class="comment">//方案一,贪婪匹配</span></div><div class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/&lt;div.*?&lt;\/div&gt;/</span>;<span class="comment">//方案二,非贪婪匹配</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg1));<span class="comment">//"&lt;div class='v1'&gt;&lt;div class='v2'&gt;test&lt;/div&gt;&lt;input type='text'/&gt;&lt;/div&gt;"</span></div><div class="line"><span class="built_in">console</span>.log(str.match(reg2));<span class="comment">//"&lt;div class='v1'&gt;&lt;div class='v2'&gt;test&lt;/div&gt;"</span></div></pre></td></tr></table></figure>
+<h2 id="区间量词的非贪婪模式"><a href="#区间量词的非贪婪模式" class="headerlink" title="区间量词的非贪婪模式"></a>区间量词的非贪婪模式</h2><p>一般情况下, 非贪婪模式, 我们使用的是<code>*?</code>, 或 <code>+?</code> 这种形式, 还有一种是 <code>{n,m}?</code>.<br>区间量词<code>{n,m}</code> 也是匹配优先, 虽有匹配次数上限, 但是在到达上限之前, 它依然是尽可能多的匹配, 而<code>{n,m}?</code> 则表示在区间范围内, 尽可能少的匹配.</p>
+<p>需要注意的是:</p>
+<ul>
+<li>能达到同样匹配结果的贪婪与非贪婪模式, 通常是贪婪模式的匹配效率较高.</li>
+<li>所有的非贪婪模式, 都可以通过修改量词修饰的子表达式, 转换为贪婪模式.</li>
+<li>贪婪模式可以与固化分组(后面会讲到)结合，提升匹配效率，而非贪婪模式却不可以.</li>
+</ul>
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><p>正则的分组主要通过小括号来实现, 括号包裹的子表达式作为一个分组, 括号后可以紧跟限定词表示重复次数. 如下, 小括号内包裹的abc便是一个分组:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/(abc)+<span class="regexp">/.test("abc123") == true</span></div></pre></td></tr></table></figure>
+<p>那么分组有什么用呢? 一般来说, 分组是为了方便的表示重复次数, 除此之外, 还有一个作用就是用于捕获, 请往下看.</p>
+<h2 id="捕获性分组"><a href="#捕获性分组" class="headerlink" title="捕获性分组"></a>捕获性分组</h2><p>捕获性分组, 通常由一对小括号加上子表达式组成. 捕获性分组会创建反向引用, 每个反向引用都由一个编号或名称来标识, js中主要是通过 <code>$+</code> 编号 或者 +编号 表示法进行引用. 如下便是一个捕获性分组的例子.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> color = <span class="string">"#808080"</span>;</div><div class="line"><span class="keyword">var</span> output = color.replace(<span class="regexp">/#(\d+)/</span>,<span class="string">"$1"</span>+<span class="string">"~~"</span>);<span class="comment">//自然也可以写成 "$1~~"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">RegExp</span>.$<span class="number">1</span>);<span class="comment">//808080</span></div><div class="line"><span class="built_in">console</span>.log(output);<span class="comment">//808080~~</span></div></pre></td></tr></table></figure>
+<p>以上, <code>(\d+)</code> 表示一个捕获性分组, <code>RegExp.\$1</code> 指向该分组捕获的内容. <code>$+编号</code> 这种引用通常在正则表达式之外使用. <code>+编号</code> 这种引用却可以在正则表达式中使用, 可用于匹配不同位置相同部分的子串.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> url = <span class="string">"www.google.google.com"</span>;</div><div class="line"><span class="keyword">var</span> re = <span class="regexp">/([a-z]+)\.\1/</span>; <span class="comment">// ps：前面（）中使用的是贪婪模式</span></div><div class="line"><span class="built_in">console</span>.log(url.replace(re,<span class="string">"$1"</span>));<span class="comment">//"www.google.com"</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">RegExp</span>.$<span class="number">1</span>) <span class="comment">// "google"</span></div></pre></td></tr></table></figure>
+<h2 id="非捕获性分组"><a href="#非捕获性分组" class="headerlink" title="非捕获性分组"></a>非捕获性分组</h2><p>非捕获性分组, 通常由一对括号加上<code>?:</code>加上子表达式组成, 非捕获性分组不会创建反向引用, 就好像没有括号一样. 如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> color = <span class="string">"#808080"</span>;</div><div class="line"><span class="keyword">var</span> output = color.replace(<span class="regexp">/#(?:\d+)/</span>,<span class="string">"$1"</span>+<span class="string">"~~"</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">RegExp</span>.$<span class="number">1</span>);<span class="comment">//""</span></div><div class="line"><span class="built_in">console</span>.log(output);<span class="comment">//$1~~</span></div></pre></td></tr></table></figure>
+<p>以上, <code>(?:\d+)</code> 表示一个非捕获性分组, 由于分组不捕获任何内容, 所以, <code>$1</code> 指向空字符串.<br>实际上, 捕获性分组和无捕获性分组在搜索效率方面也没什么不同, 没有哪一个比另一个更快.</p>
+<h2 id="命名分组"><a href="#命名分组" class="headerlink" title="命名分组"></a>命名分组</h2><p>语法: (?…)</p>
+<p>命名分组也是捕获性分组, 它将匹配的字符串捕获到一个组名称或编号名称中, 在获得匹配结果后, 可通过分组名进行获取.（ javaScript 中不支持命名分组 ）</p>
+<h2 id="固化分组"><a href="#固化分组" class="headerlink" title="固化分组"></a>固化分组</h2><p>固化分组, 又叫原子组.</p>
+<p>语法: (?&gt;…)</p>
+<p>如上所述, 我们在使用非贪婪模式时, 匹配过程中可能会进行多次的回溯, 回溯越多, 正则表达式的运行效率就越低. 而固化分组就是用来减少回溯次数的.（ javaScript 中不支持固话分组 ）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;常年没有写过正则了，今天来好好学习一波，有点长，留着点东西准备些下一篇&lt;/p&gt;
+&lt;p&gt;先放一波格式化代码&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="正则" scheme="http://yoursite.com/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2017/03/04/hello-world/"/>
+    <id>http://yoursite.com/2017/03/04/hello-world/</id>
+    <published>2017-03-04T03:02:03.000Z</published>
+    <updated>2017-03-04T04:21:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>wr的第二个博客，一个博客源码丢了现在重新开始写一个</p>
+<p>这个是hello world篇</p>
+<p>2017-03-04 12:20:27</p>
+<a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;wr的第二个博客，一个博客源码丢了现在重新开始写一个&lt;/p&gt;
+&lt;p&gt;这个是hello world篇&lt;/p&gt;
+&lt;p&gt;2017-03-04 12:20:27&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
