@@ -1,5 +1,5 @@
 ---
-title: git commit msg
+title: git commit 规范
 ---
 
 git commit 一些规范
@@ -8,7 +8,7 @@ git commit 一些规范
 
 > [原文链接](http://karma-runner.github.io/0.10/dev/git-commit-msg.html)
 
-## Format of the commit message:
+## 提交commit的一些格式:
 ```
 <type>(<scope>): <subject>
 
@@ -18,21 +18,22 @@ git commit 一些规范
 ```
 
 
-## Message subject (first line)
+## 消息头
+
 - - - -
-#### First line cannot be longer than 70 characters, second line is always blank and other lines should be wrapped at 80 characters.
- 
-> *Allowed <type> values:*  
+#### 通常第一行不会超过70个字符，第二行一般都是空白行，后面的每行都不应该超过80个字符
 
-* **feat** (new feature)
-* **fix** (bug fix)
-* **docs** (changes to documentation)
-* **style** (formatting, missing semi colons, etc; no code change)
-* **refactor** (refactoring production code)
-* **test** (adding missing tests, refactoring tests; no production code change)
-* **chore** (updating grunt tasks etc; no production code change)
+> *Allowed <type> values:*
 
-> *Example <scope> values:*  
+* **feat** (新feature)
+* **fix** (修复bug)
+* **docs** (修改文档)
+* **style** (css修改)
+* **refactor** (代码重构)
+* **test** (测试相关)
+* **chore** (更新自动化任务，不修改业务代码)
+
+> *Example <scope> values:*
 
 * init
 * runner
@@ -45,7 +46,7 @@ git commit 一些规范
 The <scope> can be empty (eg. if the change is a global or difficult to assign to a single component), in which case the parentheses are omitted.
 
 
-## Message body
+## 消息体
 - - - -
 * uses the imperative, present tense: “change” not “changed” nor “changes”
 * includes motivation for the change and contrasts with previous behavior

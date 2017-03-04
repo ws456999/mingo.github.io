@@ -44,9 +44,11 @@ title: 什么是webpack
 这时候就出现了一些模块化的解决方案
 
 ### commonJS
+``` javascript
 require（”vue”）
 require(“../file.js”)
 module.exports = something
+```
 
 优点：
 服务器端模块便于重用
@@ -58,8 +60,10 @@ NPM 中已经有将近20万个可以使用模块包
 不能非阻塞的并行加载多个模块
 
 ### AMD
+``` javascript
 define(“jq”, “lodash”, funciton (d1, d2) {
 })
+```
 Requirejs
 优点：
 
@@ -71,12 +75,14 @@ Requirejs
 不符合通用的模块化思维方式，是一种妥协的实现
 
 ### CMD
+``` javascript
 define(function(require, export, module) {
 	var $ = require('jquery');
   	var Spinning = require('./spinning');
 	exports.doSomething = ...
   	module.exports = ...
 })
+```
 
 优点：
 依赖就近，延迟执行
@@ -86,6 +92,7 @@ define(function(require, export, module) {
 依赖 SPM 打包，模块的加载逻辑偏重
 
 ### UMD
+``` javascript
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -104,12 +111,14 @@ define(function(require, export, module) {
     // the exported module properties.
     exports.action = function () {};
 }));
+```
 
 
 ### ES6 模块
+``` javascript
 import "jquery";
 export function doStuff() {}
-
+```
 优点：
 容易进行静态分析
 面向未来的 EcmaScript 标准
