@@ -45,7 +45,7 @@ Https是就是套在SSL/TLS内的http，也就是安全的http。何为安全？
 
 以上就是https用到技术的简化版，一个http通信流程如下：
 
-![https流程](img/https.png)
+![https流程](https://github.com/ws456999/ws456999.github.io/blob/master/https.png?raw=true)
 
 大体步骤：
 ```
