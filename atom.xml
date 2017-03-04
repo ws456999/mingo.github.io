@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-04T11:29:17.000Z</updated>
+  <updated>2017-03-04T12:20:00.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,14 +20,10 @@
     <link href="http://yoursite.com/2017/03/04/img-preview/"/>
     <id>http://yoursite.com/2017/03/04/img-preview/</id>
     <published>2017-03-04T11:17:54.000Z</published>
-    <updated>2017-03-04T11:29:17.000Z</updated>
+    <updated>2017-03-04T12:20:00.000Z</updated>
     
     <content type="html"><![CDATA[<p>方法有三种：</p>
-<ol>
-<li>选择文件后直上传然后得到网络url</li>
-<li>用HTML5的File API的FileReader图片本地转成base64格式的url</li>
-<li>用URL.createObjectURL(file)对象方法创建临时路径</li>
-</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. 选择文件后直上传然后得到网络url</div><div class="line">2. 用HTML5的File API的FileReader图片本地转成base64格式的url</div><div class="line">3. 用URL.createObjectURL(file)对象方法创建临时路径</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h2 id="选择文件后直接上传然后得到网络url"><a href="#选择文件后直接上传然后得到网络url" class="headerlink" title="选择文件后直接上传然后得到网络url"></a>选择文件后直接上传然后得到网络url</h2><p>利用2、3方法先将图片传到服务器，再使用服务器里面的绝对地址</p>
 <h2 id="用HTML5的File-API的FileReader获取图片的base64字符串"><a href="#用HTML5的File-API的FileReader获取图片的base64字符串" class="headerlink" title="用HTML5的File API的FileReader获取图片的base64字符串"></a>用HTML5的File API的FileReader获取图片的base64字符串</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 下面是使用vue的写法</span></div><div class="line"></div><div class="line">imgPreview (file) &#123;</div><div class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 看支持不支持FileReader</span></div><div class="line">    <span class="keyword">if</span> (!file || !<span class="built_in">window</span>.FileReader) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="regexp">/^image/</span>.test(file.type)) &#123;</div><div class="line">        <span class="comment">// 创建一个reader</span></div><div class="line">        <span class="keyword">let</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line">        <span class="comment">// 将图片将转成 base64 格式</span></div><div class="line">        reader.readAsDataURL(file);</div><div class="line">        <span class="comment">// 读取成功后的回调</span></div><div class="line">        reader.onloadend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="comment">// 将图片展示</span></div><div class="line">            self.dataUrl = reader.result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;,</div><div class="line">handleFileChange (e) &#123;</div><div class="line">    ...</div><div class="line">    this.file = inputDOM.files[<span class="number">0</span>];</div><div class="line">    ...</div><div class="line">    <span class="comment">// 在获取到文件对象进行预览就行了！</span></div><div class="line">    <span class="keyword">this</span>.imgPreview(<span class="keyword">this</span>.file);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -37,11 +33,7 @@
     <summary type="html">
     
       &lt;p&gt;方法有三种：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;选择文件后直上传然后得到网络url&lt;/li&gt;
-&lt;li&gt;用HTML5的File API的FileReader图片本地转成base64格式的url&lt;/li&gt;
-&lt;li&gt;用URL.createObjectURL(file)对象方法创建临时路径&lt;/li&gt;
-&lt;/ol&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1. 选择文件后直上传然后得到网络url&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2. 用HTML5的File API的FileReader图片本地转成base64格式的url&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3. 用URL.createObjectURL(file)对象方法创建临时路径&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
