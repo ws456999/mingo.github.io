@@ -53,7 +53,7 @@
     <link href="http://yoursite.com/2017/03/04/webpack-little/"/>
     <id>http://yoursite.com/2017/03/04/webpack-little/</id>
     <published>2017-03-04T11:10:00.000Z</published>
-    <updated>2017-03-04T11:15:00.000Z</updated>
+    <updated>2017-03-04T11:42:52.000Z</updated>
     
     <content type="html"><![CDATA[<p>这篇是之前为了组内技术分享的时候准备的，虽然那个时候讲的不太好，现在贴出来告诉自己以后要做的更好</p>
 <h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><hr>
@@ -78,21 +78,18 @@
 <li>在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪</li>
 </ul>
 <p>这时候就出现了一些模块化的解决方案</p>
-<h3 id="commonJS"><a href="#commonJS" class="headerlink" title="commonJS"></a>commonJS</h3><p>require（”vue”）<br>require(“../file.js”)<br>module.exports = something</p>
+<h3 id="commonJS"><a href="#commonJS" class="headerlink" title="commonJS"></a>commonJS</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">require</span>（”vue”）</div><div class="line"><span class="built_in">require</span>(“../file.js”)</div><div class="line"><span class="built_in">module</span>.exports = something</div></pre></td></tr></table></figure>
 <p>优点：<br>服务器端模块便于重用<br>NPM 中已经有将近20万个可以使用模块包<br>简单并容易使用</p>
 <p>缺点：<br>同步的模块加载方式不适合在浏览器环境中，同步意味着阻塞加载，浏览器资源是异步加载的<br>不能非阻塞的并行加载多个模块</p>
-<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><p>define(“jq”, “lodash”, funciton (d1, d2) {<br>})<br>Requirejs<br>优点：</p>
+<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">define(“jq”, “lodash”, funciton (d1, d2) &#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>Requirejs<br>优点：</p>
 <p>适合在浏览器环境中异步加载模块<br>可以并行加载多个模块<br>缺点：</p>
 <p>提高了开发成本，代码的阅读和书写比较困难，模块定义方式的语义不顺畅<br>不符合通用的模块化思维方式，是一种妥协的实现</p>
-<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>define(function(require, export, module) {<br>    var $ = require(‘jquery’);<br>      var Spinning = require(‘./spinning’);<br>    exports.doSomething = …<br>      module.exports = …<br>})</p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require, export, module</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">'jquery'</span>);</div><div class="line">  	<span class="keyword">var</span> Spinning = <span class="built_in">require</span>(<span class="string">'./spinning'</span>);</div><div class="line">	exports.doSomething = ...</div><div class="line">  	module.exports = ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>优点：<br>依赖就近，延迟执行<br>可以很容易在 Node.js 中运行<br>缺点：</p>
 <p>依赖 SPM 打包，模块的加载逻辑偏重</p>
-<h3 id="UMD"><a href="#UMD" class="headerlink" title="UMD"></a>UMD</h3><p>(function (root, factory) {<br>    if (typeof define === ‘function’ &amp;&amp; define.amd) {<br>        // AMD. Register as an anonymous module.<br>        define([‘exports’, ‘b’], factory);<br>    } else if (typeof exports === ‘object’ &amp;&amp; typeof exports.nodeName !== ‘string’) {<br>        // CommonJS<br>        factory(exports, require(‘b’));<br>    } else {<br>        // Browser globals<br>        factory((root.commonJsStrict = {}), root.b);<br>    }<br>}(this, function (exports, b) {<br>    //use b in some fashion.</p>
-<pre><code>// attach properties to the exports object to define
-// the exported module properties.
-exports.action = function () {};
-</code></pre><p>}));</p>
-<h3 id="ES6-模块"><a href="#ES6-模块" class="headerlink" title="ES6 模块"></a>ES6 模块</h3><p>import “jquery”;<br>export function doStuff() {}</p>
+<h3 id="UMD"><a href="#UMD" class="headerlink" title="UMD"></a>UMD</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">root, factory</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd) &#123;</div><div class="line">        <span class="comment">// AMD. Register as an anonymous module.</span></div><div class="line">        define([<span class="string">'exports'</span>, <span class="string">'b'</span>], factory);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> exports.nodeName !== <span class="string">'string'</span>) &#123;</div><div class="line">        <span class="comment">// CommonJS</span></div><div class="line">        factory(exports, <span class="built_in">require</span>(<span class="string">'b'</span>));</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// Browser globals</span></div><div class="line">        factory((root.commonJsStrict = &#123;&#125;), root.b);</div><div class="line">    &#125;</div><div class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span> (<span class="params">exports, b</span>) </span>&#123;</div><div class="line">    <span class="comment">//use b in some fashion.</span></div><div class="line"></div><div class="line">    <span class="comment">// attach properties to the exports object to define</span></div><div class="line">    <span class="comment">// the exported module properties.</span></div><div class="line">    exports.action = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<h3 id="ES6-模块"><a href="#ES6-模块" class="headerlink" title="ES6 模块"></a>ES6 模块</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"jquery"</span>;</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">doStuff</span>(<span class="params"></span>) </span>&#123;&#125;</div></pre></td></tr></table></figure>
 <p>优点：<br>容易进行静态分析<br>面向未来的 EcmaScript 标准</p>
 <p>缺点：<br>原生浏览器端还没有实现该标准<br>全新的命令字，新版的 Node.js才支持</p>
 <p>具体实现的话：babel</p>
@@ -116,33 +113,33 @@ exports.action = function () {};
   </entry>
   
   <entry>
-    <title>git commit msg</title>
+    <title>git commit 规范</title>
     <link href="http://yoursite.com/2017/03/04/commit-msg/"/>
     <id>http://yoursite.com/2017/03/04/commit-msg/</id>
     <published>2017-03-04T11:01:04.000Z</published>
-    <updated>2017-03-04T11:05:15.000Z</updated>
+    <updated>2017-03-04T11:48:19.000Z</updated>
     
     <content type="html"><![CDATA[<p>git commit 一些规范</p>
 <a id="more"></a>
 <blockquote>
 <p><a href="http://karma-runner.github.io/0.10/dev/git-commit-msg.html" target="_blank" rel="external">原文链接</a></p>
 </blockquote>
-<h2 id="Format-of-the-commit-message"><a href="#Format-of-the-commit-message" class="headerlink" title="Format of the commit message:"></a>Format of the commit message:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;footer&gt;</div></pre></td></tr></table></figure>
-<h2 id="Message-subject-first-line"><a href="#Message-subject-first-line" class="headerlink" title="Message subject (first line)"></a>Message subject (first line)</h2><hr>
-<h4 id="First-line-cannot-be-longer-than-70-characters-second-line-is-always-blank-and-other-lines-should-be-wrapped-at-80-characters"><a href="#First-line-cannot-be-longer-than-70-characters-second-line-is-always-blank-and-other-lines-should-be-wrapped-at-80-characters" class="headerlink" title="First line cannot be longer than 70 characters, second line is always blank and other lines should be wrapped at 80 characters."></a>First line cannot be longer than 70 characters, second line is always blank and other lines should be wrapped at 80 characters.</h4><blockquote>
-<p><em>Allowed <type> values:</type></em>  </p>
+<h2 id="提交commit的一些格式"><a href="#提交commit的一些格式" class="headerlink" title="提交commit的一些格式:"></a>提交commit的一些格式:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;footer&gt;</div></pre></td></tr></table></figure>
+<h2 id="消息头"><a href="#消息头" class="headerlink" title="消息头"></a>消息头</h2><hr>
+<h4 id="通常第一行不会超过70个字符，第二行一般都是空白行，后面的每行都不应该超过80个字符"><a href="#通常第一行不会超过70个字符，第二行一般都是空白行，后面的每行都不应该超过80个字符" class="headerlink" title="通常第一行不会超过70个字符，第二行一般都是空白行，后面的每行都不应该超过80个字符"></a>通常第一行不会超过70个字符，第二行一般都是空白行，后面的每行都不应该超过80个字符</h4><blockquote>
+<p><em>Allowed <type> values:</type></em></p>
 </blockquote>
 <ul>
-<li><strong>feat</strong> (new feature)</li>
-<li><strong>fix</strong> (bug fix)</li>
-<li><strong>docs</strong> (changes to documentation)</li>
-<li><strong>style</strong> (formatting, missing semi colons, etc; no code change)</li>
-<li><strong>refactor</strong> (refactoring production code)</li>
-<li><strong>test</strong> (adding missing tests, refactoring tests; no production code change)</li>
-<li><strong>chore</strong> (updating grunt tasks etc; no production code change)</li>
+<li><strong>feat</strong> (新feature)</li>
+<li><strong>fix</strong> (修复bug)</li>
+<li><strong>docs</strong> (修改文档)</li>
+<li><strong>style</strong> (css修改)</li>
+<li><strong>refactor</strong> (代码重构)</li>
+<li><strong>test</strong> (测试相关)</li>
+<li><strong>chore</strong> (更新自动化任务，不修改业务代码)</li>
 </ul>
 <blockquote>
-<p><em>Example <scope> values:</scope></em>  </p>
+<p><em>Example <scope> values:</scope></em></p>
 </blockquote>
 <ul>
 <li>init</li>
@@ -154,7 +151,7 @@ exports.action = function () {};
 <li>etc.</li>
 </ul>
 <p>The <scope> can be empty (eg. if the change is a global or difficult to assign to a single component), in which case the parentheses are omitted.</scope></p>
-<h2 id="Message-body"><a href="#Message-body" class="headerlink" title="Message body"></a>Message body</h2><hr>
+<h2 id="消息体"><a href="#消息体" class="headerlink" title="消息体"></a>消息体</h2><hr>
 <ul>
 <li>uses the imperative, present tense: “change” not “changed” nor “changes”</li>
 <li>includes motivation for the change and contrasts with previous behavior</li>
