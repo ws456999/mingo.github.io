@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2017/03/04/regex-01/</loc>
+    <loc>http://yoursite.com/2017/03/04/commit-msg/</loc>
     
-    <lastmod>2017-03-04T05:22:13.000Z</lastmod>
+    <lastmod>2017-03-04T11:02:38.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/03/04/https/</loc>
+    
+    <lastmod>2017-03-04T11:00:36.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2017/03/04/hello-world/</loc>
     
-    <lastmod>2017-03-04T04:21:33.000Z</lastmod>
+    <lastmod>2017-03-04T10:48:05.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/03/04/regex-01/</loc>
+    
+    <lastmod>2017-03-04T10:48:05.000Z</lastmod>
     
   </url>
   
