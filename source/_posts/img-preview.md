@@ -4,10 +4,11 @@ title: 图片预览的几种方法
 
 方法有三种：
 
+```
 1. 选择文件后直上传然后得到网络url
 2. 用HTML5的File API的FileReader图片本地转成base64格式的url
 3. 用URL.createObjectURL(file)对象方法创建临时路径
-
+```
 <!--more-->
 
 ## 选择文件后直接上传然后得到网络url
